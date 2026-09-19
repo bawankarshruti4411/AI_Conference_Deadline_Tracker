@@ -453,11 +453,40 @@ body.dark-mode .error-card .state-icon {
 .step p { margin-top: 7px; color: var(--muted); font-size: 11.5px; line-height: 1.6; }
 
 footer {
-    border-top: 1px solid var(--border); background: var(--surface); padding: 22px;
-    text-align: center; color: var(--muted); font-size: 11.5px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 22px 4.5%;
+    color: var(--muted);
+    font-size: 12px;
 }
-footer strong { color: var(--ink); font-family: var(--serif); }
+.footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+footer strong { color: var(--ink); font-family: var(--serif); font-size: 13px; }
 footer span { margin-left: 4px; }
+.footer-credit {
+    font-size: 12px;
+    color: var(--ink-soft);
+}
+.footer-credit a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+}
+.footer-credit a:hover {
+    color: var(--accent-dark);
+}
+body.dark-mode .footer-credit a:hover {
+    color: #fff;
+}
 
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(15, 17, 23, 0.5);
@@ -537,141 +566,203 @@ footer span { margin-left: 4px; }
     .hero-stats { gap: 22px; }
 }
 
-.developer-watermark {
-    position: fixed;
-    right: 22px;
-    bottom: 18px;
+/* ============================================================
+   Developer Watermark (Glassmorphism)
+   ============================================================ */
 
+.dev-watermark {
+    position: fixed;
+    bottom: 22px;
+    right: 24px;
+    z-index: 150;
+    pointer-events: auto;
+}
+
+.glass-watermark {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 2px;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle accent ambient glow behind glass */
+.watermark-glow {
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.32), transparent 72%);
+    filter: blur(10px);
+    opacity: 0.55;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    pointer-events: none;
+}
+
+.watermark-badge {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 8px 15px 8px 12px;
+    border-radius: 999px;
 
-    padding: 10px 14px;
+    /* Glassmorphism formula: translucent layer + deep backdrop blur + frosted specular highlight */
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 
+        0 10px 28px -6px rgba(23, 26, 33, 0.12),
+        0 3px 8px -2px rgba(23, 26, 33, 0.05),
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.04);
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 14px;
-
-    background: rgba(15, 23, 42, 0.82);
-
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
-    color: #ffffff;
-
-    z-index: 9999;
-
-    pointer-events: none;
-
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+    color: var(--ink);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Developer icon */
+body.dark-mode .watermark-badge {
+    background: rgba(27, 30, 38, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 
+        0 14px 32px -6px rgba(0, 0, 0, 0.55),
+        0 4px 10px -2px rgba(0, 0, 0, 0.35),
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4);
+}
 
-.developer-icon {
-    width: 34px;
-    height: 34px;
-
+/* Pulsing online/active radar dot */
+.pulse-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 9px;
-
-    background: rgba(99, 102, 241, 0.18);
-
-    color: #a5b4fc;
-
-    font-family: monospace;
-    font-size: 13px;
-    font-weight: 700;
-
-    border: 1px solid rgba(129, 140, 248, 0.25);
+    flex-shrink: 0;
 }
 
-/* Text section */
+.pulse-core {
+    width: 7px;
+    height: 7px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+}
 
-.developer-info {
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.45);
+    animation: watermarkPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes watermarkPing {
+    70%, 100% {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+
+.watermark-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--ink-soft);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.watermark-info {
     display: flex;
     flex-direction: column;
-
-    line-height: 1.25;
+    line-height: 1.2;
 }
 
-.developer-label {
+.watermark-label {
     font-size: 9px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    color: rgba(255, 255, 255, 0.48);
-}
-
-.developer-info strong {
-    margin-top: 2px;
-
-    font-size: 12px;
-
     font-weight: 600;
-
-    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
 }
 
-.developer-project {
-    margin-top: 2px;
-
-    font-size: 9px;
-
-    color: rgba(255, 255, 255, 0.5);
+.watermark-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.2px;
 }
 
-/* Subtle hover effect for desktop */
-
-.developer-watermark:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.watermark-arrow {
+    width: 12px;
+    height: 12px;
+    color: var(--muted);
+    opacity: 0.7;
+    margin-left: -2px;
+    transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;
 }
 
-/* Mobile */
+/* Interactive Hover States */
+.glass-watermark:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.glass-watermark:hover .watermark-glow {
+    opacity: 0.95;
+    filter: blur(14px);
+}
+
+.glass-watermark:hover .watermark-badge {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(var(--accent-rgb), 0.45);
+    box-shadow: 
+        0 16px 36px -6px rgba(var(--accent-rgb), 0.22),
+        0 6px 14px -2px rgba(23, 26, 33, 0.1),
+        inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+}
+
+body.dark-mode .glass-watermark:hover .watermark-badge {
+    background: rgba(32, 41, 66, 0.82);
+    border-color: rgba(127, 163, 222, 0.5);
+    box-shadow: 
+        0 16px 38px -6px rgba(0, 0, 0, 0.65),
+        0 0 20px rgba(127, 163, 222, 0.2),
+        inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.3);
+}
+
+.glass-watermark:hover .watermark-icon,
+.glass-watermark:hover .watermark-name {
+    color: var(--accent);
+}
+
+.glass-watermark:hover .watermark-arrow {
+    color: var(--accent);
+    opacity: 1;
+    transform: translateX(2px) translateY(-1px);
+}
+
+.glass-watermark:focus-visible .watermark-badge {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
 
 @media (max-width: 600px) {
-
-    .developer-watermark {
-        right: 10px;
-        bottom: 10px;
-
-        padding: 7px 10px;
-
-        border-radius: 11px;
-
-        gap: 7px;
+    .dev-watermark {
+        bottom: 16px;
+        right: 16px;
     }
-
-    .developer-icon {
-        width: 28px;
-        height: 28px;
-
-        font-size: 11px;
+    .watermark-badge {
+        padding: 6px 12px 6px 10px;
+        gap: 8px;
     }
-
-    .developer-label {
-        font-size: 7px;
+    .watermark-label {
+        display: none;
     }
-
-    .developer-info strong {
-        font-size: 10px;
-    }
-
-    .developer-project {
-        font-size: 7px;
+    .watermark-name {
+        font-size: 11.5px;
     }
 }
