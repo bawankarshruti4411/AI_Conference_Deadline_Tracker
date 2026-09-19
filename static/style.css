@@ -1,7 +1,3 @@
-/* ============================================================
-   Confero — design system
-   ============================================================ */
-
 :root {
     --ink: #171a21;
     --ink-soft: #4a5064;
@@ -90,8 +86,6 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; color: var(--ink); }
 }
 
 main { width: min(1320px, 94%); margin: auto; }
-
-/* ---------------- Navbar ---------------- */
 
 .navbar {
     height: 68px;
@@ -194,7 +188,6 @@ body.dark-mode .hero-glow {
 .hero-stat strong { display: block; font-size: 12.5px; font-weight: 650; }
 .hero-stat span { display: block; margin-top: 1px; font-size: 11.5px; color: var(--muted); }
 
-/* Hero visual: a real preview of the product, not decoration */
 .hero-visual { position: relative; z-index: 1; min-height: 300px; }
 .preview-shape {
     position: absolute; top: -30px; right: -30px; width: 260px; height: 260px;
@@ -249,8 +242,6 @@ body.dark-mode .preview-shape {
 .preview-note strong { display: block; font-size: 12px; font-weight: 650; }
 .preview-note span { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); line-height: 1.5; }
 
-/* ---------------- Search panel ---------------- */
-
 .search-panel {
     margin-top: 22px; background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 20px;
@@ -283,8 +274,6 @@ body.dark-mode .preview-shape {
 }
 .search-btn:hover { background: var(--accent-dark); }
 .search-btn.loading { opacity: 0.7; pointer-events: none; }
-
-/* ---------------- Results layout ---------------- */
 
 .results-section { display: grid; grid-template-columns: 235px 1fr; gap: 22px; margin-top: 26px; margin-bottom: 55px; }
 
@@ -407,8 +396,6 @@ body.dark-mode .preview-shape {
 .track-btn:hover { background: var(--accent-dark); }
 .track-btn.tracked { background: var(--green); border-color: var(--green); }
 
-/* ---------------- Empty / loading / error states ---------------- */
-
 .welcome-card, .empty-card, .loading-card, .error-card {
     grid-column: 1 / -1; min-height: 260px; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center; padding: 40px;
@@ -441,8 +428,6 @@ body.dark-mode .error-card .state-icon {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---------------- How it works ---------------- */
-
 .how-it-works { padding: 50px 0 65px; }
 .section-heading { text-align: center; margin-bottom: 30px; }
 .section-heading span { color: var(--accent); font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
@@ -473,8 +458,6 @@ footer {
 }
 footer strong { color: var(--ink); font-family: var(--serif); }
 footer span { margin-left: 4px; }
-
-/* ---------------- My List modal ---------------- */
 
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(15, 17, 23, 0.5);
@@ -552,4 +535,40 @@ footer span { margin-left: 4px; }
     .results-header { flex-direction: column; align-items: flex-start; gap: 12px; }
     .results-header select { width: 100%; }
     .hero-stats { gap: 22px; }
+}
+.developer-watermark {
+    position: fixed;
+    right: 20px;
+    bottom: 16px;
+    z-index: 9999;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    background: rgba(15, 23, 42, 0.88);
+    color: rgba(255, 255, 255, 0.75);
+
+    font-size: 12px;
+    letter-spacing: 0.2px;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    pointer-events: none;
+}
+
+.developer-watermark strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .developer-watermark {
+        right: 10px;
+        bottom: 10px;
+        font-size: 10px;
+        padding: 6px 10px;
+    }
 }
